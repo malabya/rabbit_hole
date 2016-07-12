@@ -140,7 +140,8 @@ class FormManglerService {
 
     $is_bundle = $this->isEntityBundle($entity);
     $entity_plugin = $this->rhEntityPluginManager->createInstanceByEntityType(
-      $is_bundle ? $entity_type->getBundleOf() : $entity_type->id());
+      $is_bundle_or_entity_type && !empty($entity_type->getBundleOf())
+        ? $entity_type->getBundleOf() : $entity_type->id());
 
     // If the user doesn't have access, exit.
     // If the form is about to be attached to an entity, but the bundle isn't
