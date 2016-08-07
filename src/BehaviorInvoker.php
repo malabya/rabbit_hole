@@ -3,6 +3,7 @@
 namespace Drupal\rabbit_hole;
 
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Session\AccountProxy;
 use Drupal\rabbit_hole\Plugin\RabbitHoleBehaviorPluginManager;
 use Drupal\rabbit_hole\Plugin\RabbitHoleBehaviorPluginInterface;
@@ -73,11 +74,25 @@ class BehaviorInvoker implements BehaviorInvokerInterface {
    * pass an entity to this method and it does not have a rabbit hole plugin it
    * will use the defaults!
    *
-   * This method can be triggered with a response if any plugins need it but
-   * this actually has no effect right now. Left it in because it might be
-   * useful.
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *    The entity to apply rabbit hole behavior on.
+   * @param Symfony\Component\HttpFoundation\Response $current_response
+   *    The current response, to be passed along to and potentially altered by
+   *    any called rabbit hole plugin.
+   *
+   * @return Symfony\Component\HttpFoundation\Response|null
+   *    A response or null if the response is unchanged.
+   *
+   * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+   *   The PageNotFound plugin may throw a NotFoundHttpException which is not
+   *   handled by this method. This usually shouldn't be caught as it is
+   *   intended behavior.
+   * @throws Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+   *   The PageNotFound plugin may throw a NotFoundHttpException which is not
+   *   handled by this method. This usually shouldn't be caught as it is
+   *   intended behavior.
    */
-  public function processEntity($entity, Response $current_response = NULL) {
+  public function processEntity(ContentEntityInterface $entity, Response $current_response = NULL) {
     $permission = 'rabbit hole bypass ' . $entity->getEntityTypeId();
     if ($this->currentUser->hasPermission($permission)) {
       return NULL;
