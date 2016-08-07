@@ -6,7 +6,6 @@ use Drupal\Core\Entity\Entity;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityTypeBundleInfo;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\rabbit_hole\Plugin\RabbitHoleBehaviorPluginManager;
 use Drupal\rabbit_hole\Plugin\RabbitHoleEntityPluginManager;
 use Drupal\rabbit_hole\Entity\BehaviorSettings;
@@ -232,13 +231,21 @@ class FormManglerService {
     //
     // TODO: This should probably be moved out into plugins based on entity
     // type.
-    $submit_handler_locations = $entity_plugin
-      ->getFormSubmitHandlerAttachLocations();
+    $is_global_form = isset($attach['#form_id'])
+      && $attach['#form_id'] === $entity_plugin->getGlobalConfigFormId();
+    $submit_handler_locations = $is_global_form
+      ? $entity_plugin->getGlobalFormSubmitHandlerAttachLocations()
+      : $entity_plugin->getFormSubmitHandlerAttachLocations();
 
     foreach ($submit_handler_locations as $location) {
       $array_ref = &$attach;
-      foreach ($location as $subkey) {
-        $array_ref = &$array_ref[$subkey];
+      if (is_array($location)) {
+        foreach ($location as $subkey) {
+          $array_ref = &$array_ref[$subkey];
+        }
+      }
+      else {
+        $array_ref = &$array_ref[$location];
       }
       $array_ref[] = '_rabbit_hole_general_form_submit';
     }

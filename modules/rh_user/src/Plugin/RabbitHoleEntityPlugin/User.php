@@ -35,7 +35,7 @@ class User extends RabbitHoleEntityPluginBase {
    * {@inheritdoc}
    */
   public function getGlobalFormSubmitHandlerAttachLocations() {
-    return array(array('actions', 'submit', '#submit'));
+    return array('#submit');
   }
 
 }
