@@ -4,7 +4,7 @@ namespace Drupal\rabbit_hole;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\rabbit_hole\Plugin\RabbitHoleEntityPluginManager;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -24,7 +24,7 @@ class RabbitHolePermissionGenerator implements ContainerInjectionInterface {
    * Constructor.
    */
   public function __construct(
-    EntityTypeManager $etm,
+    EntityTypeManagerInterface $etm,
     RabbitHoleEntityPluginManager $entity_plugin_manager,
     TranslationInterface $translation) {
 

@@ -4,7 +4,7 @@ namespace Drupal\rabbit_hole;
 
 use Drupal\Core\Entity\Entity;
 use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\rabbit_hole\Plugin\RabbitHoleBehaviorPluginManager;
 use Drupal\rabbit_hole\Plugin\RabbitHoleEntityPluginManager;
@@ -32,7 +32,7 @@ class FormManglerService {
    * Constructor.
    */
   public function __construct(
-    EntityTypeManager $etm,
+    EntityTypeManagerInterface $etm,
     EntityTypeBundleInfo $etbi,
     RabbitHoleBehaviorPluginManager $behavior_plugin_manager,
     RabbitHoleEntityPluginManager $entity_plugin_manager,
