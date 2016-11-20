@@ -153,20 +153,24 @@ class BehaviorInvoker implements BehaviorInvokerInterface {
   private function getRabbitHoleValuesForEntity(ContentEntityBase $entity) {
     $field_keys = array_keys($this->rhEntityExtender->getGeneralExtraFields());
     $values = array();
+
+    $config = $this->rhBehaviorSettingsManager->loadBehaviorSettingsAsConfig(
+      $entity->getEntityType()->getBundleEntityType()
+        ?: $entity->getEntityType()->id(),
+      $entity->bundle());
+
     // We trigger the default bundle action under the following circumstances:
+    $trigger_default_bundle_action =
+    // Bundle settings do not allow override
+      !$config->get('allow_override')
     // Entity does not have rh_action field.
-    $trigger_default_bundle_action = !$entity->hasField('rh_action')
+      || !$entity->hasField('rh_action')
     // Entity has rh_action field but it's null (hasn't been set).
       || $entity->get('rh_action')->value == NULL
     // Entity has been explicitly set to use the default bundle action.
       || $entity->get('rh_action')->value == 'bundle_default';
 
     if ($trigger_default_bundle_action) {
-      $config = $this->rhBehaviorSettingsManager->loadBehaviorSettingsAsConfig(
-        $entity->getEntityType()->getBundleEntityType()
-          ?: $entity->getEntityType()->id(),
-        $entity->bundle());
-
       foreach ($field_keys as $field_key) {
         $config_field_key = substr($field_key, 3);
         $values[$field_key] = $config->get($config_field_key);

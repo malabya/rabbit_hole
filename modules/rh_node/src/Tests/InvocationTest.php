@@ -130,7 +130,7 @@ class InvocationTest extends WebTestBase {
     $node_type->save();
     if (isset($action)) {
       $this->behaviorSettingsManager->saveBehaviorSettings(
-        array('action' => $action), 'node_type', $node_type->id());
+        array('action' => $action, 'allow_override' => TRUE), 'node_type', $node_type->id());
     }
     return $node_type;
   }

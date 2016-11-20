@@ -101,8 +101,6 @@ class FormManglerService {
     $entity_type = $this->entityTypeManager->getStorage($entity_type_id)
       ->getEntityType();
 
-    $is_bundle_or_entity_type = FALSE;
-
     if ($entity === NULL) {
       $is_bundle_or_entity_type = TRUE;
     }
@@ -133,6 +131,12 @@ class FormManglerService {
         ->loadBehaviorSettingsAsConfig($bundle_entity_type,
             $entity->bundle());
 
+      // If the form is about to be attached to an entity,
+      // but the bundle isn't allowed to be overridden, exit.
+      if (!$bundle_settings->get('allow_override')) {
+        return;
+      }
+
       $action = isset($entity->rh_action->value)
         ? $entity->rh_action->value
         : 'bundle_default';
@@ -144,8 +148,6 @@ class FormManglerService {
         ? $entity_type->getBundleOf() : $entity_type->id());
 
     // If the user doesn't have access, exit.
-    // If the form is about to be attached to an entity, but the bundle isn't
-    // allowed to be overridden, exit.
     // Get information about the entity.
     // TODO: Should be possible to get this as plural? Look into this.
     $entity_label = $entity_type->getLabel();
@@ -186,11 +188,10 @@ class FormManglerService {
 
     // Add override setting if we're editing a bundle.
     if ($is_bundle_or_entity_type) {
-      $allow_override = $bundle_settings->get('allow_override');
       $form['rabbit_hole']['rh_override'] = array(
         '#type' => 'checkbox',
         '#title' => t('Allow these settings to be overridden for individual entities'),
-        '#default_value' => $allow_override,
+        '#default_value' => $bundle_settings->get('allow_override'),
         '#description' => t('If this is checked, users with the %permission permission will be able to override these settings for individual entities.', array('%permission' => t('Administer Rabbit Hole settings for @entity_type', array('@entity_type' => $entity_label)))),
       );
     }
