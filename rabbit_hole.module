@@ -58,9 +58,11 @@ function rabbit_hole_form_alter(&$form, FormStateInterface $form_state, $form_id
     ->loadSupportedGlobalForms();
   if (method_exists($form_state->getFormObject(), 'getEntity')) {
     $current_type = $form_state->getFormObject()->getEntity()->getEntityTypeId();
+    $current_operation = $form_state->getFormObject()->getOperation();
+    $disallowed_operations = array('delete', 'cancel');
     $administer_permitted = \Drupal::currentUser()
             ->hasPermission('rabbit hole administer ' . $current_type);
-    if (in_array($current_type, $affected_types) && $administer_permitted) {
+    if (in_array($current_type, $affected_types) && $administer_permitted && !in_array($current_operation, $disallowed_operations)) {
       \Drupal::service('rabbit_hole.form_mangler')->addRabbitHoleOptionsToEntityForm(
         $form, $form_state->getFormObject()->getEntity(), $form_state, $form_id);
 
@@ -69,7 +71,7 @@ function rabbit_hole_form_alter(&$form, FormStateInterface $form_state, $form_id
           array('_rabbit_hole_general_form_submit'))
       );
     }
-    elseif (in_array($current_type, $affected_bundle_types)) {
+    elseif (in_array($current_type, $affected_bundle_types) && !in_array($current_operation, $disallowed_operations)) {
       \Drupal::service('rabbit_hole.form_mangler')->addRabbitHoleOptionsToEntityForm(
         $form, $form_state->getFormObject()->getEntity(), $form_state, $form_id);
       $form_state->setSubmitHandlers(
