@@ -219,19 +219,17 @@ class PageRedirect extends RabbitHoleBehaviorPluginBase implements ContainerFact
     $redirect = NULL;
     $redirect_code = NULL;
 
-    if (isset($entity)) {
-      if ($entity_is_bundle) {
-        $redirect = $bundle_settings->get('redirect');
-        $redirect_code = $bundle_settings->get('redirect_code');
-      }
-      else {
-        $redirect = isset($entity->rh_redirect->value)
-          ? $entity->rh_redirect->value
-          : self::RABBIT_HOLE_PAGE_REDIRECT_DEFAULT;
-        $redirect_code = isset($entity->rh_redirect_code->value)
-          ? $entity->rh_redirect_code->value
-          : self::RABBIT_HOLE_PAGE_REDIRECT_RESPONSE_DEFAULT;
-      }
+    if ($entity_is_bundle) {
+      $redirect = $bundle_settings->get('redirect');
+      $redirect_code = $bundle_settings->get('redirect_code');
+    }
+    elseif (isset($entity)) {
+      $redirect = isset($entity->rh_redirect->value)
+        ? $entity->rh_redirect->value
+        : self::RABBIT_HOLE_PAGE_REDIRECT_DEFAULT;
+      $redirect_code = isset($entity->rh_redirect_response->value)
+        ? $entity->rh_redirect_response->value
+        : self::RABBIT_HOLE_PAGE_REDIRECT_RESPONSE_DEFAULT;
     }
     else {
       $redirect = NULL;
