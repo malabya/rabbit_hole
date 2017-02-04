@@ -270,18 +270,22 @@ class PageRedirect extends RabbitHoleBehaviorPluginBase implements ContainerFact
       '#after_build' => array(),
     );
 
-    $entity_type_for_tokens = NULL;
+    $entity_type_id = NULL;
     if (isset($entity)) {
-      $entity_type_for_tokens = $entity_is_bundle
+      $entity_type_id = $entity_is_bundle
         ? $entity->getEntityType()->getBundleOf()
         : $entity->getEntityTypeId();
     }
     else {
-      $entity_type_for_tokens = $this->rhEntityPluginManager
+      $entity_type_id = $this->rhEntityPluginManager
         ->loadSupportedGlobalForms()[$form_id];
     }
 
+    $entity_type_for_tokens = NULL;
     if ($this->moduleHandler->moduleExists('token')) {
+      $token_map = $this->rhEntityPluginManager->loadEntityTokenMap();
+      $entity_type_for_tokens = $token_map[$entity_type_id];
+
       $form['rabbit_hole']['redirect']['rh_redirect']['#element_validate'][]
         = 'token_element_validate';
       $form['rabbit_hole']['redirect']['rh_redirect']['#after_build'][]
