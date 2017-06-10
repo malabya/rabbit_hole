@@ -26,7 +26,7 @@ class RabbitHoleBehaviorSettingsTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = array('rabbit_hole', self::DEFAULT_TEST_ENTITY);
+  public static $modules = ['rabbit_hole', self::DEFAULT_TEST_ENTITY];
 
   private $behaviorSettingsManager;
 
@@ -122,12 +122,12 @@ class RabbitHoleBehaviorSettingsTest extends WebTestBase {
       $editable->delete();
     }
 
-    $this->behaviorSettingsManager->saveBehaviorSettings(array(
+    $this->behaviorSettingsManager->saveBehaviorSettings([
       'action' => $expected_action,
       'allow_override' => 0,
       'redirect_code' => 0,
       'redirect' => '',
-    ), $entity_type_label, $entity_id);
+    ], $entity_type_label, $entity_id);
     $action = $this->behaviorSettingsManager->loadBehaviorSettingsAsConfig(
       $entity_type_label, $entity_id)->get('action');
     $this->assertEqual($action, $expected_action, 'Unexpected action '
@@ -154,11 +154,11 @@ class RabbitHoleBehaviorSettingsTest extends WebTestBase {
    */
   private function generateTestNode() {
     return Node::create(
-      array(
+      [
         'nid' => NULL,
         'type' => $this->testNodeType->id(),
         'title' => 'Test Behavior Settings Node',
-      )
+      ]
     );
   }
 
