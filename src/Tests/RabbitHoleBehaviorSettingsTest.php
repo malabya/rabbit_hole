@@ -4,6 +4,7 @@ namespace Drupal\rabbit_hole\Tests;
 
 use Drupal\simpletest\WebTestBase;
 use Drupal\node\Entity\Node;
+use Drupal\node\Entity\NodeType;
 use Drupal\rabbit_hole\Entity\BehaviorSettings;
 
 /**
@@ -141,11 +142,10 @@ class RabbitHoleBehaviorSettingsTest extends WebTestBase {
    * Helper function to generate the test node type.
    */
   private function generateTestNodeType() {
-    return \entity_create('node_type',
-      array(
+    return NodeType::create([
         'type' => 'test_behavior_settings_node_type',
         'name' => 'Test Behavior Settings Node Type',
-      )
+      ]
     );
   }
 
