@@ -11,7 +11,7 @@ use Drupal\rabbit_hole\Exception\InvalidBehaviorSettingException;
  *
  * @ConfigEntityType(
  *   id = "behavior_settings",
- *   label = @Translation("Behavior settings"),
+ *   label = @Translation("Rabbit hole settings"),
  *   handlers = {},
  *   config_prefix = "behavior_settings",
  *   admin_permission = "administer site configuration",
