@@ -2,6 +2,7 @@
 
 namespace Drupal\rabbit_hole\Plugin\RabbitHoleBehaviorPlugin;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Url;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Link;
@@ -166,6 +167,12 @@ class PageRedirect extends RabbitHoleBehaviorPluginBase implements ContainerFact
     elseif ($target === '<front>' || $target === '/<front>') {
       // Special case for redirecting to the front page.
       $target = \Drupal::service('url_generator')->generateFromRoute('<front>', [], []);
+    }
+
+    // If non-absolute URI, pass URL through Drupal's URL generator to
+    // handle languages etc.
+    if (!UrlHelper::isExternal($target)) {
+      $target = Url::fromUserInput($target)->toString();
     }
 
     switch ($response_code) {
