@@ -99,6 +99,12 @@ class BehaviorInvoker implements BehaviorInvokerInterface {
     }
 
     $values = $this->getRabbitHoleValuesForEntity($entity);
+
+    if (empty($values['rh_action'])) {
+      // No action set; do nothing.
+      return NULL;
+    }
+
     $plugin = $this->rhBehaviorPluginManager
       ->createInstance($values['rh_action'], $values);
 
