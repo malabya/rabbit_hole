@@ -22,8 +22,6 @@ use Drupal\rabbit_hole\Plugin\RabbitHoleEntityPluginManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
-
 /**
  * Redirects to another page.
  *
@@ -220,8 +218,14 @@ class PageRedirect extends RabbitHoleBehaviorPluginBase implements ContainerFact
   /**
    * {@inheritdoc}
    */
-  public function settingsForm(&$form, &$form_state, $form_id, Entity $entity = NULL,
-    $entity_is_bundle = FALSE, ImmutableConfig $bundle_settings = NULL) {
+  public function settingsForm(
+    &$form,
+    &$form_state,
+    $form_id,
+    Entity $entity = NULL,
+    $entity_is_bundle = FALSE,
+    ImmutableConfig $bundle_settings = NULL
+  ) {
 
     $redirect = NULL;
     $redirect_code = NULL;

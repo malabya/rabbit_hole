@@ -52,4 +52,5 @@ abstract class RabbitHoleEntityPluginBase extends PluginBase implements RabbitHo
     }
     return $map;
   }
+
 }

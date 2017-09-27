@@ -170,7 +170,7 @@ class BehaviorInvoker implements BehaviorInvokerInterface {
 
     // We trigger the default bundle action under the following circumstances:
     $trigger_default_bundle_action =
-    // Bundle settings do not allow override
+    // Bundle settings do not allow override.
       !$config->get('allow_override')
     // Entity does not have rh_action field.
       || !$entity->hasField('rh_action')

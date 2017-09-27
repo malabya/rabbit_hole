@@ -13,4 +13,6 @@ use Drupal\rabbit_hole\Plugin\RabbitHoleEntityPluginBase;
  *   entityType = "media"
  * )
  */
-class Media extends RabbitHoleEntityPluginBase { }
+class Media extends RabbitHoleEntityPluginBase {
+
+}

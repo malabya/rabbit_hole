@@ -33,4 +33,5 @@ class Taxonomy extends RabbitHoleEntityPluginBase {
       'taxonomy_vocabulary' => 'vocabulary',
     ];
   }
+
 }

@@ -64,4 +64,5 @@ interface RabbitHoleEntityPluginInterface extends PluginInspectionInterface {
    *   ['entity ID' => 'token ID']
    */
   public function getEntityTokenMap();
+
 }

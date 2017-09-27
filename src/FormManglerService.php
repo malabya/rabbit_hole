@@ -95,8 +95,13 @@ class FormManglerService {
    *    defined even in the case of bundles since it is used to determine bundle
    *    and entity type.
    */
-  private function addRabbitHoleOptionsToForm(array &$attach, $entity_type_id,
-    $entity, FormStateInterface $form_state, $form_id) {
+  private function addRabbitHoleOptionsToForm(
+    array &$attach,
+    $entity_type_id,
+    $entity,
+    FormStateInterface $form_state,
+    $form_id
+  ) {
 
     $entity_type = $this->entityTypeManager->getStorage($entity_type_id)
       ->getEntityType();
@@ -318,16 +323,21 @@ class FormManglerService {
    *   The form state.
    * @param string $form_id
    *   The form ID.
-   * @param \Drupal\Core\Entity\Entity|NULL $entity
+   * @param \Drupal\Core\Entity\Entity|null $entity
    *   The entity whose settings form we are displaying.
    * @param bool $entity_is_bundle
    *   Whether the entity is a bundle.
-   * @param \Drupal\Core\Config\ImmutableConfig|NULL $bundle_settings
+   * @param \Drupal\Core\Config\ImmutableConfig|null $bundle_settings
    *   The settings for this bundle.
    */
-  protected function populateExtraBehaviorSections(&$form, $form_state,
-    $form_id, Entity $entity = NULL, $entity_is_bundle = FALSE,
-    ImmutableConfig $bundle_settings = NULL) {
+  protected function populateExtraBehaviorSections(
+    &$form,
+    $form_state,
+    $form_id,
+    Entity $entity = NULL,
+    $entity_is_bundle = FALSE,
+    ImmutableConfig $bundle_settings = NULL
+  ) {
 
     foreach ($this->rhBehaviorPluginManager->getDefinitions() as $id => $def) {
       $this->rhBehaviorPluginManager

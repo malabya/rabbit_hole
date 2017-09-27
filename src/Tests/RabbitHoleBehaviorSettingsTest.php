@@ -112,8 +112,7 @@ class RabbitHoleBehaviorSettingsTest extends WebTestBase {
   /**
    * Helper function to test saving and confirming config.
    */
-  private function saveAndTestExpectedValues($expected_action,
-    $calling_method, $entity_type_label = '', $entity_id = NULL) {
+  private function saveAndTestExpectedValues($expected_action, $calling_method, $entity_type_label = '', $entity_id = NULL) {
 
     // Delete key if it already exists.
     $editable = $this->behaviorSettingsManager->loadBehaviorSettingsAsEditableConfig(
