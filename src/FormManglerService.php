@@ -12,6 +12,7 @@ use Drupal\rabbit_hole\Entity\BehaviorSettings;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Component\Utility\UrlHelper;
 
 /**
  * Class FormManglerService.
@@ -260,6 +261,35 @@ class FormManglerService {
 
     // TODO: Optionally provide additional form submission handler (can we do
     // this via plugin?).
+    // Add ability to validate user input before saving the data.
+    $attach['rabbit_hole']['rabbit_hole']['redirect']['rh_redirect']['#element_validate'][] = [
+      'Drupal\rabbit_hole\FormManglerService',
+      'validateFormRedirect'
+    ];
+  }
+
+  /**
+   * Validate user input before saving it.
+   *
+   * @param array $form
+   *   The form.
+   * @param string|int|object $form_state
+   *   The form state.
+   */
+  public static function validateFormRedirect($form, FormStateInterface &$form_state){
+
+    $rh_action = $form_state->getValue('rh_action');
+
+    // Validate URL of page redirect.
+    if($rh_action == 'page_redirect'){
+      $redirect = $form_state->getValue('rh_redirect');
+      if (!UrlHelper::isExternal($redirect)) {
+        //  Check if internal URL matches requirements of \Drupal\Core\Url::fromUserInput.
+        if ((strpos($redirect, '/') !== 0) && (strpos($redirect, '#') !== 0) && (strpos($redirect, '?') !== 0)) {
+          $form_state->setErrorByName('rh_redirect', t("Internal path '@string' must begin with a '/', '?', or '#'.", ['@string' => $redirect]));
+        }
+      }
+    }
   }
 
   /**
