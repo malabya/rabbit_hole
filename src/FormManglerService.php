@@ -2,8 +2,8 @@
 
 namespace Drupal\rabbit_hole;
 
-use Drupal\Core\Entity\Entity;
 use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\rabbit_hole\Plugin\RabbitHoleBehaviorPluginManager;
@@ -74,12 +74,12 @@ class FormManglerService {
    *
    * @param array $attach
    *   The form that the Rabbit Hole form should be attached to.
-   * @param \Drupal\Core\Entity\Entity $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity that we're adding the form to, e.g. a node.  This should be
    *    defined even in the case of bundles since it is used to determine bundle
    *    and entity type.
    */
-  public function addRabbitHoleOptionsToEntityForm(array &$attach, Entity $entity, FormStateInterface $form_state, $form_id) {
+  public function addRabbitHoleOptionsToEntityForm(array &$attach, EntityInterface $entity, FormStateInterface $form_state, $form_id) {
     $this->addRabbitHoleOptionsToForm($attach, $entity->getEntityType()->id(),
       $entity, $form_state, $form_id);
   }
@@ -353,7 +353,7 @@ class FormManglerService {
    *   The form state.
    * @param string $form_id
    *   The form ID.
-   * @param \Drupal\Core\Entity\Entity|null $entity
+   * @param \Drupal\Core\Entity\EntityInterface|null $entity
    *   The entity whose settings form we are displaying.
    * @param bool $entity_is_bundle
    *   Whether the entity is a bundle.
@@ -364,7 +364,7 @@ class FormManglerService {
     &$form,
     $form_state,
     $form_id,
-    Entity $entity = NULL,
+    EntityInterface $entity = NULL,
     $entity_is_bundle = FALSE,
     ImmutableConfig $bundle_settings = NULL
   ) {
