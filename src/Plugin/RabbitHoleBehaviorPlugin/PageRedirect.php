@@ -273,6 +273,7 @@ class PageRedirect extends RabbitHoleBehaviorPluginBase implements ContainerFact
       '#rows' => substr_count($redirect, "\r\n") + 2,
       '#element_validate' => [],
       '#after_build' => [],
+      '#maxlength' => 2000,
     ];
 
     $entity_type_id = NULL;
